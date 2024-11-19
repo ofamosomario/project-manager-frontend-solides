@@ -10,7 +10,9 @@ import {
   TableRow,
   Paper,
   CircularProgress,
+  LinearProgress,
   Container,
+  Typography,
 } from '@mui/material';
 import ActionButtons from '../../components/ActionButtons'
 
@@ -49,6 +51,9 @@ const ProjectList = () => {
 
   return (
     <Container maxWidth="xl">
+        <Typography variant="h5" component="h2" align="center" gutterBottom>
+          Listagem de projeto(s):
+        </Typography>
         <TableContainer component={Paper} sx={{ width: '100%' }}>
           <Table sx={{ width: '100%' }}>
             <TableHead>
@@ -68,7 +73,10 @@ const ProjectList = () => {
                   <TableCell>{project.id}</TableCell>
                   <TableCell>{project.attributes.name}</TableCell>
                   <TableCell align="right">
-                    {project.attributes.progress_percentage}%
+                    <LinearProgress
+                      variant="determinate"
+                      value={project.attributes.progress_percentage || 0}
+                    />
                   </TableCell>
                   <TableCell align="right">
                     {project.attributes.start_date}

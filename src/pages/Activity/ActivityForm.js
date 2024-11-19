@@ -24,6 +24,7 @@ const ActivityForm = () => {
   });
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,16 +51,39 @@ const ActivityForm = () => {
     }
   }, [id, projectId]);
 
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'O nome da atividade é obrigatório.';
+    }
+    if (!formData.start_date) {
+      newErrors.start_date = 'A data de início é obrigatória.';
+    }
+    if (!formData.end_date) {
+      newErrors.end_date = 'A data de fim é obrigatória.';
+    }
+    if (formData.start_date && formData.end_date && formData.start_date > formData.end_date) {
+      newErrors.end_date = 'A data de fim deve ser posterior à data de início.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevState) => ({
       ...prevState,
       [name]: type === 'checkbox' ? checked : value,
     }));
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: undefined })); // Limpa o erro ao editar
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return; // Validação dos campos
+
     setSaving(true);
     try {
       if (id) {
@@ -102,6 +126,8 @@ const ActivityForm = () => {
                 onChange={handleChange}
                 fullWidth
                 required
+                error={!!errors.name}
+                helperText={errors.name}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -116,6 +142,8 @@ const ActivityForm = () => {
                   shrink: true,
                 }}
                 required
+                error={!!errors.start_date}
+                helperText={errors.start_date}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -130,6 +158,8 @@ const ActivityForm = () => {
                   shrink: true,
                 }}
                 required
+                error={!!errors.end_date}
+                helperText={errors.end_date}
               />
             </Grid>
             <Grid item xs={12}>

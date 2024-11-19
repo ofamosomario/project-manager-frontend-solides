@@ -1,5 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { IconButton, Tooltip, Box, Typography, Container, CircularProgress, LinearProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import {
+  IconButton,
+  Tooltip,
+  Box,
+  Typography,
+  Container,
+  CircularProgress,
+  LinearProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddTaskIcon from '@mui/icons-material/AddTask';
@@ -72,7 +88,7 @@ const ProjectShow = () => {
           <strong>Projeto atrasado?</strong> {project.delayed ? 'Sim' : 'Não'}
         </Typography>
         <Typography variant="body1">
-          <strong>Porcentagem finalizada:</strong> {project.progress_percentage || 0}%
+          <strong>Progresso:</strong> {project.progress_percentage || 0}%
         </Typography>
         <Box sx={{ marginY: 2 }}>
           <LinearProgress
